@@ -1,7 +1,12 @@
-package med.voli.medapi.controller;
+package med.voli.medapi.medico.controller;
 
 import jakarta.validation.Valid;
-import med.voli.medapi.medico.*;
+import med.voli.medapi.medico.domain.Medico;
+import med.voli.medapi.medico.dto.AtualizacaoMedico;
+import med.voli.medapi.medico.dto.CadastroMedico;
+import med.voli.medapi.medico.dto.MedicoAtualizado;
+import med.voli.medapi.medico.dto.MedicoJSON;
+import med.voli.medapi.medico.repository.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
