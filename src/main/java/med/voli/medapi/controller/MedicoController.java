@@ -22,24 +22,31 @@ public class MedicoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrarMedico(@RequestBody @Valid CadastroMedico cadastroMedico, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity post(@RequestBody @Valid CadastroMedico cadastroMedico, UriComponentsBuilder uriBuilder) {
         var medico =new Medico(cadastroMedico);
         repository.save(medico);
 
         var uri = uriBuilder.path("/medicos/{id}").buildAndExpand(medico.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new MedicoCadastrado(medico));
+        return ResponseEntity.created(uri).body(new MedicoJSON(medico));
     }
 
     @GetMapping
-    public ResponseEntity<Page<MedicoJSON>> buscarMedicos(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
+    public ResponseEntity<Page<MedicoJSON>> list(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
         var page = repository.findAllByAtivoTrue(paginacao).map(MedicoJSON::new);
         return ResponseEntity.ok(page);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity get(@PathVariable UUID id) {
+        var medico = repository.getReferenceById(id);
+
+        return ResponseEntity.ok(new MedicoJSON(medico));
+    }
+
     @PutMapping
     @Transactional
-    public ResponseEntity atualizarMedico(@RequestBody @Valid AtualizacaoMedico atualizacaoMedico) {
+    public ResponseEntity put(@RequestBody @Valid AtualizacaoMedico atualizacaoMedico) {
         var medico = repository.getReferenceById(atualizacaoMedico.id());
         medico.atualizar(atualizacaoMedico);
 
@@ -48,7 +55,7 @@ public class MedicoController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity desabilitarMedico(@PathVariable UUID id) {
+    public ResponseEntity delete(@PathVariable UUID id) {
         var medico = repository.getReferenceById(id);
         medico.desabilitar();
 
