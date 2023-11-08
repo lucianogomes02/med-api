@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import med.voli.medapi.endereco.EnderecoDTO;
 
-public record MedicoDTO(
+public record CadastroMedico(
         @NotBlank
         String nome,
 

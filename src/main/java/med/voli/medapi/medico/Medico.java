@@ -30,12 +30,24 @@ public class Medico {
     @Embedded
     private Endereco endereco;
 
-    public Medico(MedicoDTO medicoDTO) {
-        this.nome = medicoDTO.nome();
-        this.email = medicoDTO.email();
-        this.telefone = medicoDTO.telefone();
-        this.crm = medicoDTO.crm();
-        this.especialidade = medicoDTO.especialidade();
-        this.endereco = new Endereco(medicoDTO.endereco());
+    public Medico(CadastroMedico cadastroMedico) {
+        this.nome = cadastroMedico.nome();
+        this.email = cadastroMedico.email();
+        this.telefone = cadastroMedico.telefone();
+        this.crm = cadastroMedico.crm();
+        this.especialidade = cadastroMedico.especialidade();
+        this.endereco = new Endereco(cadastroMedico.endereco());
+    }
+
+    public void atualizar(AtualizacaoMedico atualizacaoMedico) {
+        if (atualizacaoMedico.nome() != null) {
+            this.nome = atualizacaoMedico.nome();
+        }
+        if (atualizacaoMedico.telefone() != null) {
+            this.telefone = atualizacaoMedico.telefone();
+        }
+        if (atualizacaoMedico.endereco() != null) {
+            this.endereco.atualizarInformacoes(atualizacaoMedico.endereco());
+        }
     }
 }
