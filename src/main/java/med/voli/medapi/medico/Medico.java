@@ -29,6 +29,7 @@ public class Medico {
 
     @Embedded
     private Endereco endereco;
+    private Boolean ativo;
 
     public Medico(CadastroMedico cadastroMedico) {
         this.nome = cadastroMedico.nome();
@@ -37,6 +38,7 @@ public class Medico {
         this.crm = cadastroMedico.crm();
         this.especialidade = cadastroMedico.especialidade();
         this.endereco = new Endereco(cadastroMedico.endereco());
+        this.ativo = true;
     }
 
     public void atualizar(AtualizacaoMedico atualizacaoMedico) {
@@ -49,5 +51,9 @@ public class Medico {
         if (atualizacaoMedico.endereco() != null) {
             this.endereco.atualizarInformacoes(atualizacaoMedico.endereco());
         }
+    }
+
+    public void desabilitar() {
+        this.ativo = false;
     }
 }
