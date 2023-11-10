@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import med.voli.medapi.endereco.EnderecoDTO;
-import med.voli.medapi.medico.domain.Especialidade;
 
 public record CadastroPaciente(
         @NotBlank
