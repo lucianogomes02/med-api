@@ -28,7 +28,7 @@ public class MedicoController {
     @PostMapping
     @Transactional
     public ResponseEntity post(@RequestBody @Valid CadastroMedico cadastroMedico, UriComponentsBuilder uriBuilder) {
-        var medico =new Medico(cadastroMedico);
+        var medico = new Medico(cadastroMedico);
         repository.save(medico);
 
         var uri = uriBuilder.path("/medicos/{id}").buildAndExpand(medico.getId()).toUri();
