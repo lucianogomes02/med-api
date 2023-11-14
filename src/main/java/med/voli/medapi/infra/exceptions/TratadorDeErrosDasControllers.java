@@ -1,4 +1,4 @@
-package med.voli.medapi.exceptions;
+package med.voli.medapi.infra.exceptions;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
