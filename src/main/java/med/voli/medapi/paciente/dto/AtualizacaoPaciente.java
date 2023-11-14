@@ -1,4 +1,4 @@
-package med.voli.medapi.pacientes.dto;
+package med.voli.medapi.paciente.dto;
 
 import jakarta.validation.constraints.NotNull;
 import med.voli.medapi.endereco.EnderecoDTO;

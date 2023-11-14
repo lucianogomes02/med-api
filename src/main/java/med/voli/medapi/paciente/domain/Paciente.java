@@ -1,4 +1,4 @@
-package med.voli.medapi.pacientes.domain;
+package med.voli.medapi.paciente.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,8 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import med.voli.medapi.endereco.Endereco;
-import med.voli.medapi.pacientes.dto.AtualizacaoPaciente;
-import med.voli.medapi.pacientes.dto.CadastroPaciente;
+import med.voli.medapi.paciente.dto.AtualizacaoPaciente;
+import med.voli.medapi.paciente.dto.CadastroPaciente;
 
 import java.util.UUID;
 

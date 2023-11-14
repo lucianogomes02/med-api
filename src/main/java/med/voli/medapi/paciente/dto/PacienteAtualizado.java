@@ -1,6 +1,6 @@
-package med.voli.medapi.pacientes.dto;
+package med.voli.medapi.paciente.dto;
 
-import med.voli.medapi.pacientes.domain.Paciente;
+import med.voli.medapi.paciente.domain.Paciente;
 
 import java.util.UUID;
 
