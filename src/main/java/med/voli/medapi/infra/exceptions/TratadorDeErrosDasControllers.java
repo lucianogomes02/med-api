@@ -2,7 +2,11 @@ package med.voli.medapi.infra.exceptions;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,6 +31,24 @@ public class TratadorDeErrosDasControllers {
     public ResponseEntity tratarInconsistenciaDeDadosNaRequisicao(DataIntegrityViolationException exception) {
         ExcecaoDTO excecaoDTO = new ExcecaoDTO("Médico/Paciente já cadastrado.", "400");
         return ResponseEntity.badRequest().body(excecaoDTO);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity tratarErroBadCredentials() {
+        ExcecaoDTO excecaoDTO = new ExcecaoDTO("Usuário/Senha inválidos.", "401");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(excecaoDTO);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity tratarErroAuthentication() {
+        ExcecaoDTO excecaoDTO = new ExcecaoDTO("Falha na autenticação.", "401");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(excecaoDTO);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity tratarErroAcessoNegado() {
+        ExcecaoDTO excecaoDTO = new ExcecaoDTO("Acesso negado.", "403");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(excecaoDTO);
     }
 
     private record DadosErroValidacao(String campo, String mensagem) {
