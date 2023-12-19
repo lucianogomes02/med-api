@@ -1,10 +1,12 @@
 package med.voli.medapi.consulta.service;
 
 import med.voli.medapi.consulta.domain.Consulta;
+import med.voli.medapi.consulta.domain.domain_specifications.PreRequisitosAgendamentoDeConsulta;
 import med.voli.medapi.consulta.dto.AgendamentoConsulta;
 import med.voli.medapi.consulta.repository.ConsultaRepository;
 import med.voli.medapi.consulta.exceptions.EntidadeInexistente;
 import med.voli.medapi.consulta.exceptions.EspecialidadeObrigatoria;
+import med.voli.medapi.infra.exceptions.ValidacaoException;
 import med.voli.medapi.medico.domain.Medico;
 import med.voli.medapi.medico.repository.MedicoRepository;
 import med.voli.medapi.paciente.repository.PacienteRepository;
@@ -23,7 +25,12 @@ public class AgendaDeConsultas {
     @Autowired
     private PacienteRepository pacienteRepository;
 
+    @Autowired
+    private PreRequisitosAgendamentoDeConsulta preRequisitosAgendamentoDeConsulta;
+
     public void agendar(AgendamentoConsulta agendamentoConsulta) throws EntidadeInexistente, EspecialidadeObrigatoria {
+        this.preRequisitosAgendamentoDeConsulta.executar_validacoes();
+
         if (!pacienteRepository.existsById(agendamentoConsulta.idPaciente())) {
             throw new EntidadeInexistente("Paciente informado não está cadastrado.");
         }
