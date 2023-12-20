@@ -51,6 +51,12 @@ public class TratadorDeErrosDasControllers {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(excecaoDTO);
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity tratarErroValidacao(RuntimeException exception) {
+        ExcecaoDTO excecaoDTO = new ExcecaoDTO(exception.getMessage(), "400");
+        return ResponseEntity.badRequest().body(excecaoDTO);
+    }
+
     private record DadosErroValidacao(String campo, String mensagem) {
         public DadosErroValidacao(FieldError erro) {
             this(erro.getField(), erro.getDefaultMessage());

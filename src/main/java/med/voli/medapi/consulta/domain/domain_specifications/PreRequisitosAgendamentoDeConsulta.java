@@ -22,7 +22,7 @@ public class PreRequisitosAgendamentoDeConsulta implements PreRequisitosAgendame
             try {
                 validador.validar(agendamentoConsulta);
             } catch (ValidacaoException e) {
-                throw new RuntimeException(e.toString());
+                throw new RuntimeException(e.getMessage());
             }
         });
     }
