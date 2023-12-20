@@ -29,7 +29,7 @@ public class AgendaDeConsultas {
     private PreRequisitosAgendamentoDeConsulta preRequisitosAgendamentoDeConsulta;
 
     public void agendar(AgendamentoConsulta agendamentoConsulta) throws EntidadeInexistente, EspecialidadeObrigatoria {
-        this.preRequisitosAgendamentoDeConsulta.executar_validacoes();
+        this.preRequisitosAgendamentoDeConsulta.executar_validacoes(agendamentoConsulta);
 
         if (!pacienteRepository.existsById(agendamentoConsulta.idPaciente())) {
             throw new EntidadeInexistente("Paciente informado não está cadastrado.");

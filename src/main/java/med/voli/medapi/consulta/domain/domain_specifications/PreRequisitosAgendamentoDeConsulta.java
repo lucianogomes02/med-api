@@ -11,20 +11,16 @@ public class PreRequisitosAgendamentoDeConsulta implements PreRequisitosAgendame
     @Autowired
     private ConjuntoDeValidacoesAgendamentoConsulta validacoes;
 
-    @Autowired
-    private final AgendamentoConsulta agendamentoConsulta;
-
-    public PreRequisitosAgendamentoDeConsulta(AgendamentoConsulta agendamentoConsulta) {
+    public PreRequisitosAgendamentoDeConsulta() {
         this.validacoes = new ConjuntoDeValidacoesAgendamentoConsulta();
-        this.agendamentoConsulta = agendamentoConsulta;
     }
 
     @Override
-    public void executar_validacoes() {
+    public void executar_validacoes(AgendamentoConsulta agendamentoConsulta) {
         var validadores = this.validacoes.retornarValidadores();
         validadores.forEach(validador -> {
             try {
-                validador.validar(this.agendamentoConsulta);
+                validador.validar(agendamentoConsulta);
             } catch (ValidacaoException e) {
                 throw new RuntimeException(e.toString());
             }
