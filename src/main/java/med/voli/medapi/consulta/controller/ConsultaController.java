@@ -24,8 +24,8 @@ public class ConsultaController {
     @PostMapping
     @Transactional
     public ResponseEntity post(@RequestBody @Valid AgendamentoConsulta agendamentoConsulta) throws EntidadeInexistente, EspecialidadeObrigatoria {
-        agendaDeConsultas.agendar(agendamentoConsulta);
-        return ResponseEntity.ok(new DetalhamentoConsulta(null));
+        var agendamento = agendaDeConsultas.agendar(agendamentoConsulta);
+        return ResponseEntity.ok(agendamento);
     }
 
 }

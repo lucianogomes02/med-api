@@ -3,6 +3,7 @@ package med.voli.medapi.consulta.service;
 import med.voli.medapi.consulta.domain.Consulta;
 import med.voli.medapi.consulta.domain.domain_specifications.PreRequisitosAgendamentoDeConsulta;
 import med.voli.medapi.consulta.dto.AgendamentoConsulta;
+import med.voli.medapi.consulta.dto.AgendamentoCriado;
 import med.voli.medapi.consulta.repository.ConsultaRepository;
 import med.voli.medapi.consulta.exceptions.EntidadeInexistente;
 import med.voli.medapi.consulta.exceptions.EspecialidadeObrigatoria;
@@ -28,7 +29,7 @@ public class AgendaDeConsultas {
     @Autowired
     private PreRequisitosAgendamentoDeConsulta preRequisitosAgendamentoDeConsulta;
 
-    public void agendar(AgendamentoConsulta agendamentoConsulta) throws EntidadeInexistente, EspecialidadeObrigatoria {
+    public AgendamentoCriado agendar(AgendamentoConsulta agendamentoConsulta) throws EntidadeInexistente, EspecialidadeObrigatoria {
         this.preRequisitosAgendamentoDeConsulta.executar_validacoes(agendamentoConsulta);
 
         if (!pacienteRepository.existsById(agendamentoConsulta.idPaciente())) {
@@ -43,6 +44,8 @@ public class AgendaDeConsultas {
         var paciente = pacienteRepository.getReferenceById(agendamentoConsulta.idPaciente());
         var consulta = new Consulta(null, medico, paciente, agendamentoConsulta.data());
         consultaRepository.save(consulta);
+
+        return new AgendamentoCriado(consulta);
     }
 
     private Medico selecionarMedico(AgendamentoConsulta agendamentoConsulta) throws EspecialidadeObrigatoria{
