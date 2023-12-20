@@ -2,6 +2,7 @@ package med.voli.medapi.consulta.controller;
 
 import jakarta.validation.Valid;
 import med.voli.medapi.consulta.dto.AgendamentoConsulta;
+import med.voli.medapi.consulta.dto.AgendamentoCriado;
 import med.voli.medapi.consulta.dto.DetalhamentoConsulta;
 import med.voli.medapi.consulta.exceptions.EspecialidadeObrigatoria;
 import med.voli.medapi.consulta.service.AgendaDeConsultas;
@@ -23,7 +24,7 @@ public class ConsultaController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity post(@RequestBody @Valid AgendamentoConsulta agendamentoConsulta) throws EntidadeInexistente, EspecialidadeObrigatoria {
+    public ResponseEntity<AgendamentoCriado> post(@RequestBody @Valid AgendamentoConsulta agendamentoConsulta) throws EntidadeInexistente, EspecialidadeObrigatoria {
         var agendamento = agendaDeConsultas.agendar(agendamentoConsulta);
         return ResponseEntity.ok(agendamento);
     }
