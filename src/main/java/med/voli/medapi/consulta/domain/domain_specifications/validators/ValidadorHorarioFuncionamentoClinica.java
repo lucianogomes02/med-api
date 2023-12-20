@@ -1,4 +1,4 @@
-package med.voli.medapi.consulta.domain.domain_specifications;
+package med.voli.medapi.consulta.domain.domain_specifications.validators;
 
 import med.voli.medapi.consulta.domain.domain_specifications.validation_interfaces.ValidadorAgendamentoConsultaInterface;
 import med.voli.medapi.consulta.dto.AgendamentoConsulta;
