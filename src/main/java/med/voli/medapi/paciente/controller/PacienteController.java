@@ -1,5 +1,6 @@
 package med.voli.medapi.paciente.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import med.voli.medapi.paciente.domain.Paciente;
 import med.voli.medapi.paciente.dto.AtualizacaoPaciente;
@@ -20,6 +21,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("pacientes")
+@SecurityRequirement(name = "bearer-key")
 public class PacienteController {
 
     @Autowired
