@@ -1,0 +1,61 @@
+package med.voli.medapi.service.consulta;
+
+import med.voli.medapi.domain.consulta.Consulta;
+import med.voli.medapi.domain.consulta.domain_specifications.PreRequisitosAgendamentoDeConsulta;
+import med.voli.medapi.domain.consulta.dto.AgendamentoConsulta;
+import med.voli.medapi.domain.consulta.dto.AgendamentoCriado;
+import med.voli.medapi.repository.consulta.ConsultaRepository;
+import med.voli.medapi.service.consulta.exceptions.EntidadeInexistente;
+import med.voli.medapi.service.consulta.exceptions.EspecialidadeObrigatoria;
+import med.voli.medapi.domain.medico.Medico;
+import med.voli.medapi.repository.medico.MedicoRepository;
+import med.voli.medapi.repository.paciente.PacienteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AgendaDeConsultas {
+
+    @Autowired
+    private ConsultaRepository consultaRepository;
+
+    @Autowired
+    private MedicoRepository medicoRepository;
+
+    @Autowired
+    private PacienteRepository pacienteRepository;
+
+    @Autowired
+    private PreRequisitosAgendamentoDeConsulta preRequisitosAgendamentoDeConsulta;
+
+    public AgendamentoCriado agendar(AgendamentoConsulta agendamentoConsulta) throws EntidadeInexistente, EspecialidadeObrigatoria {
+        this.preRequisitosAgendamentoDeConsulta.executar_validacoes(agendamentoConsulta);
+
+        if (!pacienteRepository.existsById(agendamentoConsulta.idPaciente())) {
+            throw new EntidadeInexistente("Paciente informado não está cadastrado.");
+        }
+
+        if (agendamentoConsulta.idMedico() != null && !medicoRepository.existsById(agendamentoConsulta.idMedico())) {
+            throw new EntidadeInexistente("Médico informado não está cadastrado.");
+        }
+
+        var medico = selecionarMedico(agendamentoConsulta);
+        var paciente = pacienteRepository.getReferenceById(agendamentoConsulta.idPaciente());
+        var consulta = new Consulta(null, medico, paciente, agendamentoConsulta.data());
+        consultaRepository.save(consulta);
+
+        return new AgendamentoCriado(consulta);
+    }
+
+    private Medico selecionarMedico(AgendamentoConsulta agendamentoConsulta) throws EspecialidadeObrigatoria{
+        if(agendamentoConsulta.idMedico() != null) {
+            return medicoRepository.getReferenceById(agendamentoConsulta.idMedico());
+        }
+
+        if(agendamentoConsulta.especialidade() == null) {
+            throw new EspecialidadeObrigatoria("Especialidade é obrigatória quando o Médico não for escolhido.");
+        }
+
+        return medicoRepository.buscarMedicoDisponivelNaData(agendamentoConsulta.especialidade(), agendamentoConsulta.data());
+    }
+}
